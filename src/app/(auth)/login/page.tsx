@@ -1,0 +1,18 @@
+import { Suspense } from "react";
+import Link from "next/link";
+
+import { AuthFooter, authLink } from "../auth-ui";
+import { LoginForm } from "./login-form";
+
+export const metadata = { title: "Đăng nhập | TNHub" };
+
+export default function LoginPage() {
+  return (
+    <>
+      <Suspense fallback={<h1 className="text-4xl font-semibold uppercase">Đăng nhập</h1>}>
+        <LoginForm />
+      </Suspense>
+      <AuthFooter>Chưa có tài khoản? <Link href="/register" className={authLink}>Tạo tài khoản</Link></AuthFooter>
+    </>
+  );
+}
