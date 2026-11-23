@@ -1,0 +1,69 @@
+/* Styles owned by auth-ui.css. */
+
+.auth-heading {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.auth-heading-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  border-radius: 16px;
+  background: var(--tn-brand-soft);
+  color: var(--tn-brand-ink);
+}
+
+.auth-field {
+  position: relative;
+}
+
+.auth-field-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  font-size: 12px;
+}
+
+.auth-link {
+  color: var(--tn-brand-ink);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-secondary-link {
+  display: inline-block;
+  font-size: 14px;
+}
+
+.auth-notice {
+  margin-bottom: 20px;
+}
+
+.auth-retry {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--tn-muted);
+}
+
+.auth-page-title {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.auth-email {
+  overflow-wrap: anywhere;
+}

@@ -1,3 +1,4 @@
+import { getServerEnv } from "@/lib/env/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 
@@ -11,7 +12,7 @@ const passwordChange = z.object({
 });
 
 export async function POST(request: NextRequest) {
-  const origin = process.env.NEXTAUTH_URL;
+  const origin = getServerEnv().NEXTAUTH_URL;
   if (!origin || request.headers.get("origin") !== new URL(origin).origin) {
     return apiResponse({ message: "Nguồn yêu cầu không hợp lệ." }, 403);
   }

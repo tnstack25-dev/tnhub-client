@@ -1,13 +1,11 @@
 import "server-only";
 
 import axios from "axios";
+import { getServerEnv } from "@/lib/env/server";
 import { normalizeApiError } from "./error";
 
 export function createServerApi(accessToken?: string) {
-  const baseURL = process.env.API_URL;
-  if (!baseURL || !["http:", "https:"].includes(new URL(baseURL).protocol)) {
-    throw new Error("API_URL must be an absolute HTTP(S) URL");
-  }
+  const baseURL = getServerEnv().API_URL;
 
   const api = axios.create({
     baseURL,

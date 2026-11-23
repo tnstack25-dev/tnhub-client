@@ -1,10 +1,11 @@
+import { getServerEnv } from "@/lib/env/server";
 import type { NextRequest } from "next/server";
 
 import { apiError, apiResponse, requestSessionId } from "@/lib/auth/api-route";
 import { endSession } from "@/lib/auth/session";
 
 export async function POST(request: NextRequest) {
-  const baseUrl = process.env.NEXTAUTH_URL;
+  const baseUrl = getServerEnv().NEXTAUTH_URL;
   if (!baseUrl || request.headers.get("origin") !== new URL(baseUrl).origin) {
     return apiResponse({ message: "Nguồn yêu cầu không hợp lệ." }, 403);
   }

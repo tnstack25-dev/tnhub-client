@@ -1,4 +1,4 @@
-import { AccountView } from "./account-view";
+import { AccountView } from "@/features/account/account-view";
 
 export const metadata = { title: "Tài khoản | TNHub" };
 

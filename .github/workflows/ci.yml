@@ -1,0 +1,24 @@
+name: Client checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      API_URL: http://127.0.0.1:3000/api/v1
+      NEXTAUTH_URL: http://localhost:5173
+      NEXTAUTH_SECRET: ci-only-placeholder-secret-not-for-deployment
+      AUTH_INTERNAL_SECRET: ci-only-internal-secret-not-for-deployment
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build

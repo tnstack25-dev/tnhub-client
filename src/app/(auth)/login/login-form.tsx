@@ -1,11 +1,17 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { KeyRound, LockKeyhole, Mail } from "lucide-react";
+import { clearSessionCache } from "@/lib/auth/client-cache";
+import {
+  KeyOutlined as KeyRound,
+  LockOutlined as LockKeyhole,
+  MailOutlined as Mail,
+} from "@ant-design/icons";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
+import { Form } from "antd";
 
 import {
   AuthDivider,
@@ -15,11 +21,10 @@ import {
   AuthSubmit,
   GoogleButton,
   authLink,
-} from "../auth-ui";
+} from "@/components/auth/auth-ui";
 
 const messages: Record<string, string> = {
-  CredentialsSignin:
-    "Email hoặc mật khẩu không đúng, hoặc tài khoản chưa được xác minh.",
+  CredentialsSignin: "Email hoặc mật khẩu không đúng, hoặc tài khoản chưa được xác minh.",
   RateLimited: "Bạn đã thử quá nhiều lần. Vui lòng thử lại sau.",
   AuthUnavailable: "Dịch vụ đăng nhập tạm thời không khả dụng.",
 };
@@ -38,18 +43,16 @@ export function LoginForm() {
   const google = params.get("google");
   const googleMessage = google ? googleMessages[google] : undefined;
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function submit(fields: Record<string, string>) {
     if (pending) return;
 
-    const form = new FormData(event.currentTarget);
     setError("");
     setPending(true);
 
     try {
       const result = await signIn("credentials", {
-        email: String(form.get("email")).trim(),
-        password: String(form.get("password")),
+        email: String(fields.email).trim(),
+        password: String(fields.password),
         redirect: false,
         callbackUrl: "/dashboard",
       });
@@ -59,7 +62,7 @@ export function LoginForm() {
         return;
       }
 
-      queryClient.clear();
+      await clearSessionCache(queryClient);
       window.location.replace("/dashboard");
     } catch {
       setError(messages.AuthUnavailable);
@@ -74,30 +77,28 @@ export function LoginForm() {
         Chào mừng bạn trở lại TNHub.
       </AuthHeading>
       {params.get("logout") === "unconfirmed" && (
-        <div className="mb-4">
+        <div className="auth-notice">
           <AuthNotice>
-            Phiên trên ứng dụng đã đóng. Chưa xác nhận được việc thu hồi phiên
-            tại máy chủ.
+            Phiên trên ứng dụng đã đóng. Chưa xác nhận được việc thu hồi phiên tại máy
+            chủ.
           </AuthNotice>
         </div>
       )}
       {params.get("password") === "changed" && (
-        <div className="mb-4">
+        <div className="auth-notice">
           <AuthNotice>
             Mật khẩu đã được cập nhật. Hãy đăng nhập bằng mật khẩu mới.
           </AuthNotice>
         </div>
       )}
       {googleMessage && (
-        <div className="mb-4">
-          <AuthNotice error={google !== "cancelled"}>
-            {googleMessage}
-          </AuthNotice>
+        <div className="auth-notice">
+          <AuthNotice error={google !== "cancelled"}>{googleMessage}</AuthNotice>
         </div>
       )}
       <GoogleButton />
       <AuthDivider />
-      <form onSubmit={submit} className="space-y-4">
+      <Form layout="vertical" disabled={pending} onFinish={submit}>
         <AuthField
           label="Email"
           icon={Mail}
@@ -118,24 +119,21 @@ export function LoginForm() {
           required
           maxLength={72}
           action={
-            <Link href="/forgot-password" className={authLink + " text-xs"}>
+            <Link href="/forgot-password" className={authLink}>
               Quên mật khẩu?
             </Link>
           }
         />
         {error && <AuthNotice error>{error}</AuthNotice>}
         {error === messages.CredentialsSignin && (
-          <Link
-            className={authLink + " inline-block text-sm"}
-            href="/verify-email"
-          >
+          <Link className={authLink + " auth-secondary-link"} href="/verify-email">
             Gửi lại email xác minh
           </Link>
         )}
         <AuthSubmit pending={pending}>
           {pending ? "Đang đăng nhập…" : "Đăng nhập"}
         </AuthSubmit>
-      </form>
+      </Form>
     </>
   );
 }

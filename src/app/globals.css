@@ -1,103 +1,23 @@
-@import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-:root {
-  color-scheme: light;
-  --tn-background: #f4f7fc;
-  --tn-foreground: #142442;
-  --tn-surface: #ffffff;
-  --tn-surface-raised: #ffffff;
-  --tn-surface-muted: #f8faff;
-  --tn-surface-hover: #eef4ff;
-  --tn-muted: #506486;
-  --tn-muted-icon: #586e93;
-  --tn-line: #e0e7f1;
-  --tn-control-line: #788faf;
-  --tn-brand: #2459e0;
-  --tn-brand-hover: #194ac7;
-  --tn-brand-ink: #204bc4;
-  --tn-brand-soft: #eaf0ff;
-  --tn-focus: #2459e0;
-  --tn-danger: #9d1d31;
-  --tn-danger-soft: #fff0f2;
-  --tn-danger-line: #f0b7c2;
-  --tn-success: #17694b;
-  --tn-success-soft: #e9f8f0;
-  --tn-sidebar: #101f43;
-  --tn-sidebar-muted: #c3d0eb;
-  --tn-sidebar-active: #214cc5;
-  --tn-hero-start: #183fbc;
-  --tn-hero-end: #2460df;
-  --tn-overlay: #0d1a36;
-  --tn-panel-shadow: #182b5d;
-}
-
-:root.dark {
-  color-scheme: dark;
-  --tn-background: #0b1324;
-  --tn-foreground: #edf3ff;
-  --tn-surface: #121e33;
-  --tn-surface-raised: #192840;
-  --tn-surface-muted: #16243a;
-  --tn-surface-hover: #203250;
-  --tn-muted: #adbed8;
-  --tn-muted-icon: #9ab0d2;
-  --tn-line: #2a3b55;
-  --tn-control-line: #687fa2;
-  --tn-brand: #3461d3;
-  --tn-brand-hover: #2854c6;
-  --tn-brand-ink: #a2bdff;
-  --tn-brand-soft: #1d3259;
-  --tn-focus: #96b6ff;
-  --tn-danger: #ffb4bc;
-  --tn-danger-soft: #3b2130;
-  --tn-danger-line: #754354;
-  --tn-success: #89dfbc;
-  --tn-success-soft: #15382f;
-  --tn-sidebar: #0e192e;
-  --tn-sidebar-muted: #b3c3df;
-  --tn-sidebar-active: #244a9e;
-  --tn-hero-start: #182f67;
-  --tn-hero-end: #224eae;
-  --tn-overlay: #020711;
-  --tn-panel-shadow: #000713;
-}
-
-@theme inline {
-  --color-background: var(--tn-background);
-  --color-foreground: var(--tn-foreground);
-  --color-surface: var(--tn-surface);
-  --color-surface-raised: var(--tn-surface-raised);
-  --color-surface-muted: var(--tn-surface-muted);
-  --color-surface-hover: var(--tn-surface-hover);
-  --color-muted: var(--tn-muted);
-  --color-muted-icon: var(--tn-muted-icon);
-  --color-line: var(--tn-line);
-  --color-control-line: var(--tn-control-line);
-  --color-brand: var(--tn-brand);
-  --color-brand-hover: var(--tn-brand-hover);
-  --color-brand-ink: var(--tn-brand-ink);
-  --color-brand-soft: var(--tn-brand-soft);
-  --color-focus: var(--tn-focus);
-  --color-danger: var(--tn-danger);
-  --color-danger-soft: var(--tn-danger-soft);
-  --color-danger-line: var(--tn-danger-line);
-  --color-success: var(--tn-success);
-  --color-success-soft: var(--tn-success-soft);
-  --color-sidebar: var(--tn-sidebar);
-  --color-sidebar-muted: var(--tn-sidebar-muted);
-  --color-sidebar-active: var(--tn-sidebar-active);
-  --color-hero-start: var(--tn-hero-start);
-  --color-hero-end: var(--tn-hero-end);
-  --color-overlay: var(--tn-overlay);
-  --color-panel-shadow: var(--tn-panel-shadow);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Application base only; page and component styles live with their owners. */
 
 body {
   background: var(--tn-background);
   color: var(--tn-foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-root {
+  min-height: 100dvh;
+}
+
+.app-loading {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  color: var(--tn-muted);
+}
+
+.session-loading {
+  padding: 32px;
 }

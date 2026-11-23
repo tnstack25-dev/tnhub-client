@@ -1,0 +1,58 @@
+/* Styles owned by dashboard.css. */
+
+.dashboard-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 32px 24px;
+  color: white;
+  background: linear-gradient(to bottom right, var(--tn-hero-start), var(--tn-hero-end));
+}
+
+.dashboard-hero-pattern {
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: -1;
+  width: 60%;
+  background: repeating-radial-gradient(
+    ellipse at 90% 120%,
+    transparent 0 22px,
+    #c9dbff24 23px 24px,
+    transparent 25px 44px
+  );
+  mask-image: linear-gradient(to left, black, transparent);
+}
+
+.dashboard-hero-title {
+  max-width: 768px;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.dashboard-hero-description {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #edf3ff;
+}
+
+.dashboard-hero-action {
+  margin-top: 20px;
+}
+
+@media (min-width: 640px) {
+  .dashboard-hero {
+    padding: 40px 36px;
+  }
+  .dashboard-hero-title {
+    font-size: 2.6rem;
+  }
+  .dashboard-hero-description {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,35 @@
+/* Styles owned by audit-logs.css. */
+
+.audit-metadata {
+  padding: 16px;
+  margin: 0;
+  max-height: 420px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--tn-foreground);
+  background: var(--tn-surface-muted);
+  border: 1px solid var(--tn-line);
+  border-radius: 10px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+}
+
+:root .audit-filters.ant-form {
+  padding-block: 20px;
+}
+
+:root .audit-filter-actions.ant-space {
+  margin-top: 30px;
+}
+
+@media (max-width: 767px) {
+  :root .audit-filter-actions.ant-space {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+}
+
+.audit-value {
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,60 @@
+/* Styles owned by media.css. */
+
+.media-card.ant-card {
+  height: 100%;
+  overflow: hidden;
+}
+
+:root .media-card-selected.ant-card {
+  border-color: var(--tn-brand);
+  box-shadow: 0 0 0 1px var(--tn-brand);
+}
+
+.media-card-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  min-height: 28px;
+}
+
+.media-thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--tn-surface-muted);
+  cursor: pointer;
+}
+
+.media-thumbnail:focus-visible {
+  outline: 3px solid var(--tn-brand);
+  outline-offset: 2px;
+}
+
+.media-thumbnail > .anticon {
+  font-size: 40px;
+  color: var(--tn-muted);
+}
+
+.media-filename {
+  overflow-wrap: anywhere;
+}
+
+.media-detail-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  padding: 16px;
+  background: var(--tn-surface-muted);
+  border: 1px solid var(--tn-line);
+  border-radius: 12px;
+}
+
+:root .media-selection-bar.ant-flex {
+  padding: 12px 0 20px;
+}

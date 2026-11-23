@@ -1,0 +1,32 @@
+/* Styles owned by account.css. */
+
+.account-card {
+  max-width: 768px;
+  margin-top: 24px;
+}
+
+.account-email {
+  overflow-wrap: anywhere;
+}
+
+:root .account-identity-card.ant-card {
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.account-identity-card {
+  position: relative;
+}
+
+.account-identity-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 92px;
+  background: linear-gradient(135deg, var(--tn-brand-soft), var(--tn-surface-muted));
+}
+
+:root .account-identity-card .ant-card-body {
+  position: relative;
+  padding: 32px 20px 24px;
+}

@@ -1,3 +1,4 @@
+import { getServerEnv } from "@/lib/env/server";
 import "server-only";
 
 import { randomUUID } from "node:crypto";
@@ -29,7 +30,7 @@ function setCookie(response: NextResponse, name: string, value: string, path: st
 }
 
 export async function startGoogle(request: NextRequest) {
-  const origin = new URL(process.env.NEXTAUTH_URL ?? request.nextUrl.origin);
+  const origin = new URL(getServerEnv().NEXTAUTH_URL);
   try {
     const upstream = await createServerApi().get("/auth/google", {
       headers: { "User-Agent": request.headers.get("user-agent") ?? undefined },
@@ -51,7 +52,7 @@ export async function startGoogle(request: NextRequest) {
 }
 
 export async function finishGoogle(request: NextRequest) {
-  const origin = new URL(process.env.NEXTAUTH_URL ?? request.nextUrl.origin);
+  const origin = new URL(getServerEnv().NEXTAUTH_URL ?? request.nextUrl.origin);
   let target = "/login?google=failed";
   let ticket: string | undefined;
 

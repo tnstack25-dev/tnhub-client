@@ -1,3 +1,4 @@
+import { getServerEnv } from "@/lib/env/server";
 import "server-only";
 
 import { randomUUID } from "node:crypto";
@@ -37,7 +38,7 @@ async function createAuthUser(tokens: BackendTokens) {
 }
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: getServerEnv().NEXTAUTH_SECRET,
   session: { strategy: "jwt", maxAge: 7 * 24 * 60 * 60 },
   pages: { signIn: "/login", error: "/login" },
   providers: [

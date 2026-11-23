@@ -1,3 +1,4 @@
+import { getServerEnv } from "@/lib/env/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest, { params }: RouteContext<"/api/
   const { action } = await params;
   if (!Object.hasOwn(actions, action)) return apiResponse({ message: "Không tìm thấy yêu cầu." }, 404);
 
-  const origin = process.env.NEXTAUTH_URL;
+  const origin = getServerEnv().NEXTAUTH_URL;
   if (!origin || request.headers.get("origin") !== new URL(origin).origin) {
     return apiResponse({ message: "Nguồn yêu cầu không hợp lệ." }, 403);
   }

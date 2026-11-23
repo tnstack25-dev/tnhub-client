@@ -1,0 +1,51 @@
+/* Styles owned by media-picker-field.css. */
+
+:root .account-avatar-control.ant-flex {
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.account-avatar-ring {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-self: center;
+  width: 126px;
+  height: 126px;
+  padding: 6px;
+  border: 1px solid var(--tn-line);
+  border-radius: 50%;
+  background: var(--tn-surface);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
+}
+
+:root .account-avatar-ring .ant-avatar {
+  color: var(--tn-brand-ink);
+  background: var(--tn-brand-soft);
+}
+
+.account-avatar-camera {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--tn-surface);
+  border-radius: 50%;
+  background: var(--tn-brand-ink);
+  color: var(--tn-surface);
+  font-size: 14px;
+}
+
+:root .account-avatar-control > .ant-btn {
+  margin-top: 4px;
+  border-radius: 9px;
+  font-weight: 500;
+}
+
+.account-avatar-control > .ant-typography {
+  font-size: 12px;
+}

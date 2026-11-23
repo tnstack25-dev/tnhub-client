@@ -1,18 +1,11 @@
+import { getServerEnv } from "@/lib/env/server";
 import "server-only";
 
 import { z } from "zod";
 
 import { createServerApi } from "@/lib/axios/server";
 
-const profileSchema = z.object({
-  id: z.string(),
-  email: z.string(),
-  fullName: z.string().nullable(),
-  avatarUrl: z.string().nullable(),
-  authProvider: z.string(),
-  roles: z.array(z.string()),
-  permissions: z.array(z.string()),
-});
+import { profileSchema } from "./contracts";
 
 const issuedTokens = z.object({
   data: z.object({
@@ -21,7 +14,6 @@ const issuedTokens = z.object({
   }),
 });
 
-export type AuthProfile = z.infer<typeof profileSchema>;
 export type BackendTokens = {
   accessToken: string;
   refreshAfter: number;
@@ -31,7 +23,7 @@ export type BackendTokens = {
 };
 
 function refreshCookieName() {
-  return process.env.AUTH_COOKIE_NAME || "refresh_token";
+  return getServerEnv().AUTH_COOKIE_NAME || "refresh_token";
 }
 
 export function readTokens(data: unknown, cookies: string[]): BackendTokens {

@@ -1,0 +1,25 @@
+/* Styles owned by services.css. */
+
+.service-name {
+  font-weight: 600;
+}
+
+.service-code {
+  font-size: 12px;
+  color: var(--tn-muted);
+}
+
+.service-name-cell {
+  overflow-wrap: anywhere;
+}
+
+.services-card {
+  margin-top: 24px;
+}
+
+.admin-batch-row {
+  padding: 20px;
+  border: 1px solid var(--tn-line);
+  border-radius: 12px;
+  background: var(--tn-surface-muted);
+}

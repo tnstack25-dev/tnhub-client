@@ -1,103 +1,56 @@
+import { getServerEnv } from "@/lib/env/server";
 import "server-only";
 
-import { createClient } from "redis";
+import { createServerApi } from "@/lib/axios/server";
 
 import type { BackendTokens } from "./backend";
-import { googleTicketTtl } from "./google-ticket";
 
 type SessionOperation = "acquired" | "busy" | "missing";
 
-let connection: ReturnType<typeof connect> | undefined;
+function internalApi() {
+  const secret = getServerEnv().AUTH_INTERNAL_SECRET;
+  if (!secret) throw new Error("AUTH_INTERNAL_SECRET is required");
 
-async function connect() {
-  const url = process.env.AUTH_REDIS_URL;
-  if (!url) throw new Error("AUTH_REDIS_URL is required");
-  const client = createClient({
-    url,
-    disableOfflineQueue: true,
-    socket: { connectTimeout: 3000, reconnectStrategy: false },
-  });
-  client.on("error", () => {
-    connection = undefined;
-  });
-  return client.connect();
+  const api = createServerApi(secret);
+  api.defaults.timeout = 7000;
+  return api;
 }
 
-async function redis() {
-  connection ??= connect().catch((error) => {
-    connection = undefined;
-    throw error;
-  });
-  return (await connection).withAbortSignal(AbortSignal.timeout(3000));
+function sessionPath(id: string) {
+  return "/internal/auth/sessions/" + encodeURIComponent(id);
 }
 
-function keys(sessionId: string) {
-  const key = "tnhub:auth:{" + sessionId + "}";
-  return [key, key + ":operation"];
+function googleTicketPath(id: string) {
+  return "/internal/auth/google-tickets/" + encodeURIComponent(id);
 }
 
-export async function readSession(sessionId: string): Promise<BackendTokens | null> {
-  const [key] = keys(sessionId);
-  const value = await (await redis()).get(key);
-  return value ? JSON.parse(value) as BackendTokens : null;
+export async function readSession(sessionId: string) {
+  const response = await internalApi().get<{ data: BackendTokens | null }>(sessionPath(sessionId));
+  return response.data.data;
 }
 
 export async function createSession(sessionId: string, tokens: BackendTokens) {
-  const [key] = keys(sessionId);
-  await (await redis()).set(key, JSON.stringify(tokens), { PXAT: tokens.refreshExpiresAt });
+  await internalApi().put(sessionPath(sessionId), tokens);
 }
 
 export async function removeSession(sessionId: string) {
-  await (await redis()).del(keys(sessionId));
+  await internalApi().delete(sessionPath(sessionId));
 }
 
 export async function storeGoogleTicket(id: string, tokens: BackendTokens) {
-  await (await redis()).set("tnhub:auth:google:" + id, JSON.stringify(tokens), { EX: googleTicketTtl });
+  await internalApi().put(googleTicketPath(id), tokens);
 }
 
-export async function consumeGoogleTicket(id: string): Promise<BackendTokens | null> {
-  const value = await (await redis()).getDel("tnhub:auth:google:" + id);
-  return value ? JSON.parse(value) as BackendTokens : null;
+export async function consumeGoogleTicket(id: string) {
+  const response = await internalApi().post<{ data: BackendTokens | null }>(googleTicketPath(id) + "/consume");
+  return response.data.data;
 }
-
-// An abandoned operation may have consumed the refresh token. Expire the
-// session instead of allowing another worker to send that same token.
-const begin = `
-  local ttl = redis.call('PTTL', KEYS[1])
-  if ttl <= 0 then return 'missing' end
-  local deadline = redis.call('HGET', KEYS[2], 'deadline')
-  local time = redis.call('TIME')
-  local now = tonumber(time[1]) * 1000 + math.floor(tonumber(time[2]) / 1000)
-  if deadline then
-    if tonumber(deadline) > now then return 'busy' end
-    redis.call('DEL', KEYS[1], KEYS[2])
-    return 'missing'
-  end
-  redis.call('HSET', KEYS[2], 'owner', ARGV[1], 'deadline', now + 35000)
-  redis.call('PEXPIRE', KEYS[2], ttl)
-  return 'acquired'
-`;
-
-const finish = `
-  if redis.call('HGET', KEYS[2], 'owner') ~= ARGV[1] then return 0 end
-  if ARGV[2] == '' then
-    redis.call('DEL', KEYS[1])
-  else
-    local result = redis.call('SET', KEYS[1], ARGV[2], 'PXAT', ARGV[3], 'XX')
-    if not result then
-      redis.call('DEL', KEYS[2])
-      return 0
-    end
-  end
-  redis.call('DEL', KEYS[2])
-  return 1
-`;
 
 export async function beginSessionOperation(sessionId: string, owner: string) {
-  return await (await redis()).eval(begin, {
-    keys: keys(sessionId),
-    arguments: [owner],
-  }) as SessionOperation;
+  const response = await internalApi().post<{ data: SessionOperation }>(
+    sessionPath(sessionId) + "/operations/begin", { owner },
+  );
+  return response.data.data;
 }
 
 export async function finishSessionOperation(
@@ -105,8 +58,8 @@ export async function finishSessionOperation(
   owner: string,
   tokens: BackendTokens | null,
 ) {
-  return await (await redis()).eval(finish, {
-    keys: keys(sessionId),
-    arguments: [owner, tokens ? JSON.stringify(tokens) : "", String(tokens?.refreshExpiresAt ?? 0)],
-  }) === 1;
+  const response = await internalApi().post<{ data: boolean }>(
+    sessionPath(sessionId) + "/operations/finish", { owner, tokens },
+  );
+  return response.data.data;
 }

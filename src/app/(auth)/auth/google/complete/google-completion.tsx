@@ -1,12 +1,13 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { LoaderCircle } from "lucide-react";
+import { clearSessionCache } from "@/lib/auth/client-cache";
+import { LoadingOutlined as LoaderCircle } from "@ant-design/icons";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-import { AuthFooter, AuthHeading } from "../../../auth-ui";
+import { AuthFooter, AuthHeading } from "@/components/auth/auth-ui";
 
 export function GoogleCompletion() {
   const router = useRouter();
@@ -18,12 +19,12 @@ export function GoogleCompletion() {
     started.current = true;
 
     void signIn("google-bridge", { redirect: false, callbackUrl: "/dashboard" })
-      .then((result) => {
+      .then(async (result) => {
         if (!result?.ok || result.error) {
           router.replace("/login?google=failed");
           return;
         }
-        cache.clear();
+        await clearSessionCache(cache);
         window.location.replace("/dashboard");
       })
       .catch(() => router.replace("/login?google=unavailable"));
@@ -31,7 +32,9 @@ export function GoogleCompletion() {
 
   return (
     <>
-      <AuthHeading icon={LoaderCircle} title="Đang đăng nhập">Đang hoàn tất đăng nhập bằng Google…</AuthHeading>
+      <AuthHeading icon={LoaderCircle} title="Đang đăng nhập">
+        Đang hoàn tất đăng nhập bằng Google…
+      </AuthHeading>
       <AuthFooter />
     </>
   );

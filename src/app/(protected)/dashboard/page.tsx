@@ -1,4 +1,4 @@
-import { Dashboard } from "./dashboard";
+import { Dashboard } from "@/features/dashboard/dashboard";
 
 export const metadata = { title: "Tổng quan | TNHub" };
 

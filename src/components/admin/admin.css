@@ -1,0 +1,116 @@
+/* Styles owned by admin.css. */
+
+:root .access-drawer-footer.ant-flex {
+  position: sticky;
+  bottom: -24px;
+  z-index: 2;
+  padding-block: 16px;
+  margin-top: 16px;
+  background: var(--tn-surface);
+  border-top: 1px solid var(--tn-line);
+}
+
+.admin-page {
+  min-width: 0;
+}
+
+.admin-page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+:root .admin-eyebrow.ant-typography {
+  color: var(--tn-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+:root .admin-page-heading h1.ant-typography {
+  margin: 8px 0;
+  font-size: clamp(26px, 3vw, 34px);
+  letter-spacing: -0.035em;
+}
+
+:root .admin-page-heading .ant-typography:last-child {
+  margin-bottom: 0;
+}
+
+.admin-metric.ant-card {
+  box-shadow: 0 3px 16px #14244203;
+}
+
+:root .admin-metric.ant-card .ant-statistic-content {
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+
+:root .admin-metric.ant-card .ant-statistic-content-prefix {
+  color: var(--tn-brand);
+  margin-inline-end: 12px;
+  font-size: 24px;
+}
+
+.admin-table-card.ant-card {
+  overflow: hidden;
+}
+
+:root .admin-toolbar.ant-flex {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--tn-line);
+}
+
+:root .admin-filters.ant-flex {
+  padding-block: 20px;
+}
+
+:root .admin-selection.ant-flex {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--tn-line);
+  border-radius: 10px;
+  background: var(--tn-brand-soft);
+}
+
+.admin-identity {
+  min-width: 0;
+}
+
+.admin-name.ant-btn {
+  padding: 0;
+  height: auto;
+  white-space: normal;
+  text-align: start;
+  justify-content: flex-start;
+  color: var(--tn-foreground);
+  font-weight: 600;
+}
+
+.admin-name.ant-btn:hover {
+  color: var(--tn-brand);
+}
+
+.admin-code {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 639px) {
+  .admin-page-heading {
+    flex-direction: column;
+  }
+  :root .admin-table-card.ant-card > .ant-card-body {
+    padding: 16px;
+  }
+  .admin-filters > * {
+    flex: 1 1 180px;
+  }
+  .admin-toolbar > .ant-space {
+    flex-wrap: wrap;
+  }
+}

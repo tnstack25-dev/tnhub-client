@@ -1,56 +1,13 @@
-
 "use client";
-
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from
-  "@tanstack/react-query-devtools";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+import { createQueryClient } from "@/lib/query-client";
 
-import { ApiError } from "@/lib/axios/error";
-
-export function QueryProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000,
-            gcTime: 5 * 60 * 1000,
-            refetchOnWindowFocus: false,
-            retry: (failureCount, error) => {
-              if (error instanceof ApiError) {
-                if (
-                  error.status >= 400 &&
-                  error.status < 500 &&
-                  error.status !== 429
-                ) {
-                  return false;
-                }
-              }
-
-              return failureCount < 2;
-            },
-          },
-          mutations: {
-            retry: false,
-          },
-        },
-      }),
-  );
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools
-        initialIsOpen={false}
-      />
-    </QueryClientProvider>
-  );
+export function QueryProvider({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(createQueryClient);
+  return <QueryClientProvider client={queryClient}>
+    {children}
+    {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
+  </QueryClientProvider>;
 }
