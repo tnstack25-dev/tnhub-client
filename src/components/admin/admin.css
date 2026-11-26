@@ -22,15 +22,18 @@
 }
 
 :root .admin-eyebrow.ant-typography {
-  color: var(--tn-muted);
-  font-size: 10px;
+  display: inline-block;
+  color: var(--tn-brand-ink);
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 :root .admin-page-heading h1.ant-typography {
-  margin: 8px 0;
-  font-size: clamp(26px, 3vw, 34px);
+  margin: 6px 0 8px;
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 700;
   letter-spacing: -0.035em;
 }
 
@@ -39,39 +42,70 @@
 }
 
 .admin-metric.ant-card {
-  box-shadow: 0 3px 16px #14244203;
+  border-radius: 14px;
+  box-shadow: var(--tn-shadow-card);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.admin-metric.ant-card:hover {
+  border-color: var(--tn-line-strong);
+}
+
+:root .admin-metric.ant-card .ant-statistic-title {
+  color: var(--tn-muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 :root .admin-metric.ant-card .ant-statistic-content {
   font-size: 28px;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
 }
 
 :root .admin-metric.ant-card .ant-statistic-content-prefix {
-  color: var(--tn-brand);
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--tn-brand-border);
+  background: var(--tn-brand-soft);
+  color: var(--tn-brand-ink);
   margin-inline-end: 12px;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .admin-table-card.ant-card {
   overflow: hidden;
+  border-radius: 16px;
+  box-shadow: var(--tn-shadow-card);
+}
+
+:root .admin-table-card .ant-table-thead > tr > th {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 :root .admin-toolbar.ant-flex {
-  padding-bottom: 20px;
+  padding-bottom: 18px;
   border-bottom: 1px solid var(--tn-line);
 }
 
 :root .admin-filters.ant-flex {
-  padding-block: 20px;
+  padding-block: 18px;
 }
 
 :root .admin-selection.ant-flex {
   margin-bottom: 16px;
   padding: 12px 16px;
-  border: 1px solid var(--tn-line);
-  border-radius: 10px;
+  border: 1px solid var(--tn-brand-border);
+  border-radius: 12px;
   background: var(--tn-brand-soft);
 }
 
@@ -90,12 +124,13 @@
 }
 
 .admin-name.ant-btn:hover {
-  color: var(--tn-brand);
+  color: var(--tn-brand-ink);
 }
 
 .admin-code {
   display: block;
-  margin-top: 4px;
+  margin-top: 3px;
+  font-family: var(--font-geist-mono), monospace;
   font-size: 12px;
   overflow-wrap: anywhere;
 }

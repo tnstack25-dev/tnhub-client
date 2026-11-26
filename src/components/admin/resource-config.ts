@@ -16,7 +16,21 @@ export type ResourceContext = {
   openAssignment: (id: string) => void;
   openBatch: (ids?: string[]) => void;
 };
-export type ResourceFilters = Pick<inferParserType<typeof resourceParsers>, "category" | "sort"> & { status?: NonNullable<inferParserType<typeof resourceParsers>["status"]>; };
+export type ResourceFilters = Pick<
+  inferParserType<typeof resourceParsers>,
+  | "category"
+  | "clientType"
+  | "projectType"
+  | "priority"
+  | "clientId"
+  | "projectId"
+  | "tagId"
+  | "expiresBefore"
+  | "source"
+  | "sort"
+> & {
+  status?: NonNullable<inferParserType<typeof resourceParsers>["status"]>;
+};
 export type ResourceConfig<T extends { id: string; }> = {
   resource: Resource;
   title: string;

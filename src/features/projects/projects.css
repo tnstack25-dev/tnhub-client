@@ -1,0 +1,52 @@
+/* Styles owned by projects.css. */
+
+.project-workspace-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--tn-line);
+  border-radius: 16px;
+  background: var(--tn-surface);
+  box-shadow: var(--tn-shadow-card);
+}
+
+.project-milestone-card {
+  padding: 16px 20px;
+  border: 1px solid var(--tn-line);
+  border-radius: 14px;
+  background: var(--tn-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project-milestone-card:hover {
+  border-color: var(--tn-line-strong);
+  box-shadow: var(--tn-shadow-sm);
+}
+
+.project-checklist-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--tn-line);
+  border-radius: 10px;
+  background: var(--tn-surface-muted);
+}
+
+.project-comment-box {
+  padding: 14px 16px;
+  border: 1px solid var(--tn-line);
+  border-radius: 12px;
+  background: var(--tn-surface-muted);
+}
+
+.project-activity-row {
+  padding: 12px 16px;
+  border-left: 3px solid var(--tn-brand);
+  border-radius: 0 10px 10px 0;
+  background: var(--tn-surface-muted);
+}

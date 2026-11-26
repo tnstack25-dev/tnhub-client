@@ -4,15 +4,38 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   padding-inline: 12px;
   font-size: 20px;
-  font-weight: 600;
-  color: white;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--tn-foreground);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
 }
 
 .workspace-brand:hover {
-  color: white;
+  color: var(--tn-foreground);
+  opacity: 0.9;
+}
+
+.workspace-brand > .anticon {
+  color: var(--tn-brand-ink);
+  background: var(--tn-brand-soft);
+  border: 1px solid var(--tn-brand-border);
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: var(--tn-shadow-sm);
+}
+
+:root .workspace-nav-caption.ant-typography {
+  display: block;
+  margin: 0 12px 10px;
+  color: var(--tn-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .workspace-skip-link {
@@ -21,9 +44,14 @@
   left: 8px;
   z-index: 2000;
   transform: translateY(calc(-100% - 16px));
-  padding: 12px;
+  padding: 10px 14px;
   border-radius: 10px;
+  border: 1px solid var(--tn-brand-border);
   background: var(--tn-surface);
+  color: var(--tn-foreground);
+  font-weight: 600;
+  box-shadow: var(--tn-shadow-elevated);
+  transition: transform 0.15s ease;
 }
 
 .workspace-skip-link:focus {
@@ -32,10 +60,12 @@
 
 .workspace-sidebar.ant-layout-sider {
   display: none;
+  border-inline-end: 1px solid var(--tn-line);
 }
 
 .workspace-drawer-label {
-  color: white;
+  color: var(--tn-foreground);
+  font-weight: 600;
 }
 
 .workspace-main {
@@ -45,13 +75,15 @@
 .workspace-header.ant-layout-header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   border-bottom: 1px solid var(--tn-line);
-  background: var(--tn-surface);
+  background: var(--tn-surface-glass);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
 }
 
 .workspace-breadcrumb {
@@ -59,7 +91,20 @@
 }
 
 .workspace-account-button.ant-btn {
-  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding-inline: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--tn-line);
+  background: var(--tn-surface);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.workspace-account-button.ant-btn:hover {
+  border-color: var(--tn-line-strong);
+  background: var(--tn-surface-hover) !important;
 }
 
 .workspace-account-name {
@@ -68,6 +113,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 500;
+  color: var(--tn-foreground);
 }
 
 .workspace-content {
@@ -81,10 +128,12 @@
 .workspace-footer {
   border-top: 1px solid var(--tn-line);
   color: var(--tn-muted);
+  font-size: 13px;
 }
 
 .account-menu-identity {
   max-width: 240px;
+  padding-block: 2px;
 }
 
 .account-menu-name,
@@ -96,11 +145,28 @@
 
 .account-menu-name {
   font-weight: 600;
+  color: var(--tn-foreground);
 }
 
 .account-menu-email {
   font-size: 12px;
   color: var(--tn-muted);
+}
+
+.workspace-notice {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 639px) {
+  .workspace-header.ant-layout-header {
+    padding-inline: 16px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .workspace-header.ant-layout-header {
+    flex-wrap: wrap;
+  }
 }
 
 @media (min-width: 640px) {
@@ -125,55 +191,4 @@
   .workspace-content {
     padding-inline: 40px;
   }
-}
-
-@media (max-width: 479px) {
-  .workspace-header.ant-layout-header {
-    flex-wrap: wrap;
-  }
-}
-
-.workspace-sidebar.ant-layout-sider {
-  border-inline-end: 1px solid var(--tn-line);
-}
-
-.workspace-brand,
-.workspace-brand:hover,
-.workspace-drawer-label {
-  color: var(--tn-foreground);
-}
-
-.workspace-brand {
-  margin-bottom: 28px;
-  letter-spacing: -0.04em;
-}
-
-.workspace-brand > .anticon {
-  color: var(--tn-brand);
-  background: var(--tn-brand-soft);
-  padding: 8px;
-  border-radius: 12px;
-}
-
-:root .workspace-nav-caption.ant-typography {
-  display: block;
-  margin: 0 12px 12px;
-  color: var(--tn-muted);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
-
-.workspace-header.ant-layout-header {
-  backdrop-filter: blur(16px);
-}
-
-@media (max-width: 639px) {
-  .workspace-header.ant-layout-header {
-    padding-inline: 16px !important;
-  }
-}
-
-.workspace-notice {
-  margin-bottom: 20px;
 }

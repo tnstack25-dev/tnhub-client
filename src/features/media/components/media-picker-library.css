@@ -55,7 +55,7 @@
 
 .media-picker-tile:hover:not(:disabled) {
   border-color: var(--tn-brand-ink);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 6%);
+  box-shadow: var(--tn-shadow-card);
 }
 
 .media-picker-tile[aria-pressed="true"] {
@@ -103,7 +103,7 @@
   color: var(--tn-brand-ink);
   background: var(--tn-surface);
   border-radius: 50%;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 10%);
+  box-shadow: var(--tn-shadow-sm);
 }
 
 .media-picker-filename {

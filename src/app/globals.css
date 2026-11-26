@@ -1,10 +1,29 @@
 /* Application base only; page and component styles live with their owners. */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  margin: 0;
   background: var(--tn-background);
   color: var(--tn-foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background: var(--tn-brand-soft);
+  color: var(--tn-brand-ink);
 }
 
 .app-root {
@@ -16,8 +35,21 @@ body {
   display: grid;
   place-items: center;
   color: var(--tn-muted);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .session-loading {
   padding: 32px;
+  color: var(--tn-muted);
+  font-size: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    transition: none;
+  }
 }

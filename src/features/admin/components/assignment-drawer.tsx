@@ -33,10 +33,12 @@ export function AssignmentDrawer({
   onClose: () => void;
 }) {
   const guard = useDrawerGuard(onClose);
+  const [serverSearch, setServerSearch] = useState("");
   const detail = useAdminDetail<Role | Member>(target.kind, target.id, true);
   const options = useAssignmentOptions<Role | Permission>(
     target.kind === "roles" ? "permissions" : "roles",
     true,
+    serverSearch,
   );
   return (
     <Drawer
@@ -62,6 +64,10 @@ export function AssignmentDrawer({
           target={target}
           detail={detail.data}
           options={options.data}
+          truncated={Boolean(options.data.truncated)}
+          totalCatalog={options.data.total ?? options.data.length}
+          fetchingOptions={options.isFetching}
+          onServerSearch={setServerSearch}
           guard={guard}
           onClose={onClose}
         />
@@ -73,6 +79,10 @@ function AssignmentEditor({
   target,
   detail,
   options,
+  truncated,
+  totalCatalog,
+  fetchingOptions,
+  onServerSearch,
   onClose,
   guard,
 }: {
@@ -80,6 +90,10 @@ function AssignmentEditor({
   target: Target;
   detail: Role | Member;
   options: (Role | Permission)[];
+  truncated: boolean;
+  totalCatalog: number;
+  fetchingOptions: boolean;
+  onServerSearch: (search: string) => void;
   onClose: () => void;
 }) {
   const profile = useWorkspaceProfile();
@@ -200,6 +214,13 @@ function AssignmentEditor({
           description="Thay đổi danh sách quyền gán không giới hạn quyền của vai trò này."
         />
       )}
+      {truncated && (
+        <Alert
+          type="info"
+          showIcon
+          title={`Danh mục có ${totalCatalog} mục (đang hiển thị ${options.length} mục đầu tiên). Hãy nhập từ khóa tìm kiếm để lọc trực tiếp từ máy chủ.`}
+        />
+      )}
       {missing.length > 0 && (
         <Alert
           type="warning"
@@ -229,10 +250,16 @@ function AssignmentEditor({
           placeholder="Tìm mã hoặc tên…"
           allowClear
           value={search}
-          onSearch={setSearch}
+          onSearch={(value) => {
+            setSearch(value);
+            if (truncated || value === "") onServerSearch(value);
+          }}
           style={{ maxWidth: 360 }}
         />
-        <Tag color="blue">Đã chọn {selected.length}</Tag>
+        <Space>
+          {fetchingOptions && <Tag>Đang lọc…</Tag>}
+          <Tag color="blue">Đã chọn {selected.length}</Tag>
+        </Space>
       </Flex>
       <Checkbox.Group
         value={selected}

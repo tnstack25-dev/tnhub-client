@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 5173 --webpack",
+    "dev:turbo": "next dev -p 5173 --turbopack",
     "build": "next build --webpack",
+    "build:turbo": "next build --turbopack",
     "start": "next start -p 5173",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit --incremental false",

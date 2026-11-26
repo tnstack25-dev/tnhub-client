@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ListParams } from "@/lib/contracts/api";
 import { adminInvalidationKeys, queryKeys } from "@/lib/query-keys";
-import { getResource, listResource, mutateResource } from "./admin-api";
+import { getResource, listResource, loadAssignmentCatalog, mutateResource } from "./admin-api";
 import type { Resource } from "./resource-types";
 
 export function useAdminList<T>(resource: Resource, params: ListParams, enabled: boolean, trash = false) {
@@ -17,22 +17,11 @@ export function useAdminDetail<T>(resource: Resource, id: string, enabled: boole
     queryFn: ({ signal }) => getResource<T>(resource, id, trash, signal),
   });
 }
-// Assignments must load all pages before replacing relationships.
-export function useAssignmentOptions<T>(resource: "roles" | "permissions", enabled: boolean) {
+// Load bounded pages in parallel and support server-side search for large catalogs.
+export function useAssignmentOptions<T>(resource: "roles" | "permissions", enabled: boolean, search = "") {
   return useQuery({
-    queryKey: queryKeys.options(resource), enabled, staleTime: 0,
-    queryFn: async ({ signal }) => {
-      const items: T[] = [];
-      let page = 1;
-      let pages = 1;
-      do {
-        const result = await listResource<T>(resource, { page, limit: 100 }, false, signal);
-        items.push(...result.items);
-        pages = result.meta.totalPages;
-        page++;
-      } while (page <= pages);
-      return items;
-    },
+    queryKey: queryKeys.options(resource, search), enabled, staleTime: 0,
+    queryFn: ({ signal }) => loadAssignmentCatalog<T>(resource, { search, signal }),
   });
 }
 export function useRefreshAdmin(resource: Resource) {
