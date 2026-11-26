@@ -7,7 +7,7 @@ const root = new URL("../../", import.meta.url);
 registerHooks({
   resolve(specifier, context, nextResolve) {
     // Test both server and client modules in Node; boundary enforcement stays in Next builds.
-    if (specifier === "server-only" || specifier === "client-only") {
+    if (specifier === "server-only" || specifier === "client-only" || specifier.endsWith(".css")) {
       return { url: "data:text/javascript,export {}", shortCircuit: true };
     }
     if (specifier.startsWith("@/")) specifier = new URL("src/" + specifier.slice(2), root).href;
@@ -24,7 +24,7 @@ registerHooks({
     return nextResolve(specifier, context);
   },
   load(url, context, nextLoad) {
-    if (url.startsWith(new URL("src/", root).href) && /\.tsx?$/.test(url)) {
+    if ((url.startsWith(new URL("src/", root).href) || url.startsWith(new URL("next.config.", root).href)) && /\.tsx?$/.test(url)) {
       return { format: "module", shortCircuit: true, source: ts.transpileModule(readFileSync(new URL(url), "utf8"), {
         fileName: fileURLToPath(url), compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
       }).outputText };

@@ -1,0 +1,53 @@
+/* Styles owned by clients.css. */
+
+.admin-batch-row {
+  padding: 20px;
+  border: 1px solid var(--tn-line);
+  border-radius: 14px;
+  background: var(--tn-surface-muted);
+}
+
+.client-meta-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--tn-muted);
+}
+
+.client-contacts-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.client-contact-form-card {
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid var(--tn-brand-border);
+  border-radius: 14px;
+  background: var(--tn-surface-muted);
+}
+
+.client-contact-item {
+  padding: 14px 16px;
+  border: 1px solid var(--tn-line);
+  border-radius: 12px;
+  background: var(--tn-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.client-contact-item:hover {
+  border-color: var(--tn-line-strong);
+  box-shadow: var(--tn-shadow-sm);
+}
+
+.client-contact-primary {
+  border-color: var(--tn-brand-border);
+  background: var(--tn-brand-soft);
+}

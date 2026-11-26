@@ -2,7 +2,7 @@
 import "./change-password.css";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { clearSessionCache } from "@/lib/auth/client-cache";
+import { clearSessionCache, handleSessionError } from "@/lib/auth/client-cache";
 import {
   ArrowLeftOutlined as ArrowLeft,
   KeyOutlined as KeyRound,
@@ -49,6 +49,7 @@ export function ChangePasswordForm() {
       await clearSessionCache(queryClient);
       window.location.replace(loginUrl);
     } catch (failure) {
+      handleSessionError(queryClient, failure);
       setError(
         failure instanceof ApiError && [400, 403, 429].includes(failure.status)
           ? failure.message

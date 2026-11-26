@@ -73,19 +73,36 @@ export function StatusTag({ status }: { status: string }) {
   const text: Record<string, string> = {
     ACTIVE: "Hoạt động",
     INACTIVE: "Tạm ngưng",
+    LEAD: "Tiềm năng",
     BLOCKED: "Bị chặn",
     SUSPENDED: "Đình chỉ",
     PENDING_VERIFICATION: "Chờ xác minh",
+    PLANNING: "Lập kế hoạch",
+    ON_HOLD: "Tạm hoãn",
+    COMPLETED: "Hoàn thành",
+    CANCELLED: "Đã hủy",
+    PENDING: "Chờ thực hiện",
+    IN_PROGRESS: "Đang thực hiện",
+    TODO: "Cần làm",
+    REVIEW: "Đang duyệt",
+    DONE: "Hoàn tất",
+    DEVELOPING: "Đang phát triển",
+    STAGING: "Staging",
+    LIVE: "Đang chạy (Live)",
+    MAINTENANCE: "Bảo trì",
+    ARCHIVED: "Lưu trữ",
   };
-  return (
-    <Tag
-      color={
-        status === "ACTIVE" ? "success" : status === "INACTIVE" ? "default" : "warning"
-      }
-    >
-      {text[status] ?? status}
-    </Tag>
-  );
+  const color =
+    status === "ACTIVE" || status === "COMPLETED" || status === "DONE" || status === "LIVE"
+      ? "success"
+      : status === "LEAD" || status === "IN_PROGRESS" || status === "REVIEW" || status === "STAGING"
+        ? "processing"
+        : status === "PLANNING" || status === "DEVELOPING" || status === "TODO" || status === "PENDING"
+          ? "blue"
+          : status === "INACTIVE" || status === "CANCELLED" || status === "ARCHIVED"
+            ? "default"
+            : "warning";
+  return <Tag color={color}>{text[status] ?? status}</Tag>;
 }
 export const emptyAdmin = (
   <Empty

@@ -11,7 +11,8 @@
 
 :root .account-identity-card.ant-card {
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 16px;
+  box-shadow: var(--tn-shadow-card);
 }
 
 .account-identity-card {
@@ -22,8 +23,9 @@
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 92px;
-  background: linear-gradient(135deg, var(--tn-brand-soft), var(--tn-surface-muted));
+  height: 96px;
+  border-bottom: 1px solid var(--tn-line);
+  background: linear-gradient(135deg, var(--tn-brand-soft) 0%, var(--tn-surface-muted) 100%);
 }
 
 :root .account-identity-card .ant-card-body {

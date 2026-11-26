@@ -17,7 +17,7 @@
   border: 1px solid var(--tn-line);
   border-radius: 50%;
   background: var(--tn-surface);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
+  box-shadow: var(--tn-shadow-elevated);
 }
 
 :root .account-avatar-ring .ant-avatar {

@@ -20,7 +20,19 @@ export function ResourceView<T extends { id: string; }>({ config }: { config: Re
   const { page, limit, search } = url;
   const trash = config.supportsTrash && url.trash;
   const status = config.states.some(option => option.value === url.status) ? url.status ?? undefined : undefined;
-  const filters = { category: url.category, sort: url.sort, status };
+  const filters = {
+    category: url.category,
+    clientType: url.clientType,
+    projectType: url.projectType,
+    priority: url.priority,
+    clientId: url.clientId,
+    projectId: url.projectId,
+    tagId: url.tagId,
+    expiresBefore: url.expiresBefore,
+    source: url.source,
+    sort: url.sort,
+    status,
+  };
   const params = { page, limit, search: search || undefined, status, ...config.params?.(filters) };
   const scope = JSON.stringify([resource, params, trash]);
   const [selection, setSelection] = useState<{ scope: string; keys: Key[]; }>({ scope, keys: [] });

@@ -5,7 +5,21 @@ export const queryKeys = {
   admin: (resource: string) => ["admin", resource] as const,
   adminList: (resource: string, params: ListParams, trash: boolean) => ["admin", resource, "list", { ...params, trash }] as const,
   adminDetail: (resource: string, id: string, trash = false) => ["admin", resource, "detail", id, trash] as const,
-  options: (resource: string) => ["admin", resource, "options"] as const,
+  options: (resource: string, search = "") => ["admin", resource, "options", search] as const,
+  clientContacts: (clientId: string) => ["admin", "clients", "contacts", clientId] as const,
+  clientContactList: (clientId: string, page: number, limit: number) =>
+    ["admin", "clients", "contacts", clientId, { page, limit }] as const,
+  projectWork: (projectId: string) => ["admin", "projects", "work", projectId] as const,
+  projectSection: (projectId: string, section: string, params?: Record<string, unknown>) =>
+    ["admin", "projects", "work", projectId, section, params ?? {}] as const,
+  taskDetail: (projectId: string, taskId: string, section = "root") =>
+    ["admin", "projects", "work", projectId, "task", taskId, section] as const,
+  websiteSubList: (websiteId: string, section: string, params?: Record<string, unknown>) =>
+    ["admin", "websites", "sub", websiteId, section, params ?? {}] as const,
+  notifications: ["notifications"] as const,
+  notificationUnreadCount: ["notifications", "unread-count"] as const,
+  notificationInbox: (params: Record<string, unknown>) =>
+    ["notifications", "inbox", params] as const,
   services: ["services"] as const,
   serviceList: (page: number, limit: number) => ["services", { page, limit }] as const,
   media: ["media"] as const,

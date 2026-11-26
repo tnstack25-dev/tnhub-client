@@ -1,11 +1,12 @@
 "use client";
 import "./workspace-shell.css";
 import { useQueryClient } from "@tanstack/react-query";
-import { clearSessionCache } from "@/lib/auth/client-cache";
+import { clearSessionCache, isUnauthorizedError } from "@/lib/auth/client-cache";
 import { safeImageUrl } from "@/lib/media/validation";
 import {
   Alert,
   Avatar,
+  Badge,
   Breadcrumb,
   Button,
   Drawer,
@@ -18,6 +19,7 @@ import {
 } from "antd";
 import {
   AppstoreOutlined as Blocks,
+  BellOutlined,
   DownOutlined as ChevronDown,
   KeyOutlined as KeyRound,
   AppstoreOutlined as Layers3,
@@ -29,6 +31,10 @@ import {
   SafetyCertificateOutlined,
   KeyOutlined,
   TeamOutlined,
+  ApartmentOutlined,
+  ProjectOutlined,
+  GlobalOutlined,
+  TagsOutlined,
   PictureOutlined,
   AuditOutlined,
 } from "@ant-design/icons";
@@ -43,8 +49,35 @@ import { useWorkspaceProfile } from "@/lib/auth/profile-query";
 import { canReadServices } from "@/lib/auth/permissions";
 import { allowed } from "@/lib/auth/permissions";
 import type { AuthProfile } from "@/lib/auth/contracts";
+import { queryKeys } from "@/lib/query-keys";
+import { useQuery } from "@tanstack/react-query";
 const destinations = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
+  { href: "/notifications", label: "Thông báo", icon: BellOutlined },
+  {
+    href: "/clients",
+    label: "Khách hàng",
+    icon: ApartmentOutlined,
+    permission: "clients.read",
+  },
+  {
+    href: "/projects",
+    label: "Dự án & Công việc",
+    icon: ProjectOutlined,
+    permission: "projects.read",
+  },
+  {
+    href: "/websites",
+    label: "Website & Vận hành",
+    icon: GlobalOutlined,
+    permission: "websites.read",
+  },
+  {
+    href: "/tags",
+    label: "Nhãn dự án",
+    icon: TagsOutlined,
+    permission: "tags.read",
+  },
   { href: "/services", label: "Dịch vụ", icon: Blocks },
   { href: "/account", label: "Tài khoản", icon: UserRound },
   {
@@ -99,7 +132,6 @@ function Navigation({
       <Typography.Text className="workspace-nav-caption">WORKSPACE</Typography.Text>
       <nav aria-label="Điều hướng chính">
         <Menu
-          theme="light"
           mode="inline"
           style={{ background: "transparent", borderInlineEnd: 0 }}
           selectedKeys={[
@@ -142,6 +174,18 @@ export function WorkspaceShell({
   const router = useRouter();
   const queryClient = useQueryClient();
   const profile = useWorkspaceProfile();
+  const unreadNotifications = useQuery({
+    queryKey: queryKeys.notificationUnreadCount,
+    enabled: Boolean(profile.data),
+    staleTime: 30_000,
+    queryFn: async ({ signal }) => {
+      const { data } = await apiClient.get<{ data: { count: number } }>(
+        "/manage/notifications/me/unread-count",
+        { signal },
+      );
+      return data.data.count;
+    },
+  });
   const [leaving, setLeaving] = useState(false);
   const [logoutError, setLogoutError] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -167,7 +211,7 @@ export function WorkspaceShell({
       .slice(0, 2)
       .map((p) => p[0]?.toUpperCase())
       .join("") || "TN";
-  const expired = profile.error instanceof ApiError && profile.error.status === 401;
+  const expired = isUnauthorizedError(profile.error);
   const showServices = canReadServices(profile.data);
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 1024px)");
@@ -308,6 +352,16 @@ export function WorkspaceShell({
             />
           </Flex>
           <Flex align="center" gap={12}>
+            <Link href="/notifications" aria-label="Hộp thư thông báo">
+              <Badge count={unreadNotifications.data ?? 0} size="small" offset={[-4, 4]}>
+                <Button
+                  type="text"
+                  shape="circle"
+                  aria-label="Mở thông báo"
+                  icon={<BellOutlined style={{ fontSize: 18 }} aria-hidden />}
+                />
+              </Badge>
+            </Link>
             <ThemeSelect />
             <Dropdown
               trigger={["click"]}

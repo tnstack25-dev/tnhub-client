@@ -3,11 +3,21 @@
 .media-card.ant-card {
   height: 100%;
   overflow: hidden;
+  border-radius: 14px;
+  box-shadow: var(--tn-shadow-sm);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.media-card.ant-card:hover {
+  border-color: var(--tn-line-strong);
+  box-shadow: var(--tn-shadow-card);
+  transform: translateY(-1px);
 }
 
 :root .media-card-selected.ant-card {
   border-color: var(--tn-brand);
   box-shadow: 0 0 0 1px var(--tn-brand);
+  background: var(--tn-brand-soft);
 }
 
 .media-card-tools {
@@ -23,8 +33,8 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   padding: 0;
-  border: 0;
-  border-radius: 8px;
+  border: 1px solid var(--tn-line);
+  border-radius: 10px;
   overflow: hidden;
   background: var(--tn-surface-muted);
   cursor: pointer;
@@ -56,5 +66,18 @@
 }
 
 :root .media-selection-bar.ant-flex {
-  padding: 12px 0 20px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--tn-brand-border);
+  border-radius: 12px;
+  background: var(--tn-brand-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-card.ant-card {
+    transition: none;
+  }
+  .media-card.ant-card:hover {
+    transform: none;
+  }
 }
